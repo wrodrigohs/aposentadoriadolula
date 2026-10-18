@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2a0507">
+  <title>Lula Aposentado</title>
+  <link rel="preload" as="image" href="lula-inss-900.jpg" media="(max-width: 640px)">
+  <link rel="preload" as="image" href="lula-inss-1920.jpg" media="(min-width: 641px)">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Paleta do PT: vermelho e branco */
+      --vermelho: #c4161c;
+      --vermelho-claro: #e30613;
+      --destaque: #ffffff;
+      --texto: #ffffff;
+      --fundo: #2a0507;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fundo);
+      color: var(--texto);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Metade superior com a imagem de fundo */
+    .hero {
+      position: relative;
+      /* Mantém a proporção da imagem (2752x1536) para não cortar a fachada do INSS */
+      aspect-ratio: 2752 / 1536;
+      max-height: 75vh;
+      min-height: 340px;
+      width: 100%;
+      /* Ancorado no topo e um pouco à direita: placa do INSS e rosto do Lula sempre visíveis */
+      background:
+        url('lula-inss-1920.jpg') 60% 10% / cover no-repeat,
+        linear-gradient(135deg, var(--vermelho-claro) 0%, var(--vermelho) 50%, #7a0c10 100%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 24px 16px 110px;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      /* Degradê no tom do fundo da metade inferior (--fundo), terminando sólido para emendar sem corte */
+      background: linear-gradient(to bottom, rgba(42,5,7,0) 0%, rgba(42,5,7,.1) 40%, rgba(42,5,7,.75) 70%, var(--fundo) 100%);
+    }
+
+    .hero h1 {
+      position: relative;
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.05;
+      letter-spacing: 1px;
+      max-width: 900px;
+      text-shadow: 0 4px 18px rgba(0,0,0,.7);
+    }
+
+    .hero h1 span {
+      background: var(--vermelho-claro);
+      padding: 0 .2em;
+      border-radius: 6px;
+    }
+
+    /* Cronômetro em destaque no centro */
+    .countdown-wrap {
+      position: relative;
+      margin-top: -80px;
+      display: flex;
+      justify-content: center;
+      padding: 0 16px;
+      z-index: 2;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      background: rgba(255,255,255,.06);
+      border: 2px solid var(--vermelho-claro);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.5);
+      width: 100%;
+      max-width: 760px;
+    }
+
+    .unit {
+      background: var(--vermelho);
+      border-radius: 14px;
+      padding: 18px 8px;
+      text-align: center;
+    }
+
+    .unit .num {
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.6rem, 9vw, 5.5rem);
+      line-height: 1;
+      color: var(--destaque);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .unit .label {
+      display: block;
+      margin-top: 6px;
+      font-size: clamp(.7rem, 2vw, .95rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: .85;
+    }
+
+    .info {
+      text-align: center;
+      padding: 32px 16px 16px;
+      font-size: 1.05rem;
+      opacity: .85;
+    }
+
+    .info strong { color: #ff6b70; }
+
+    .festa {
+      display: none;
+      text-align: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      color: var(--destaque);
+      padding: 24px;
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 20px 16px;
+      font-size: .8rem;
+      opacity: .5;
+    }
+
+    /* Celular: imagem inteira no topo (sem cortes) e título logo abaixo dela */
+    @media (max-width: 640px) {
+      .hero {
+        aspect-ratio: auto;
+        min-height: 0;
+        max-height: none;
+        background:
+          url('lula-inss-900.jpg') top center / 100% auto no-repeat,
+          var(--fundo);
+        /* Título começa perto da base da imagem (altura = 100vw * 1536/2752) */
+        padding: calc(55.8vw - 24px) 16px 64px;
+      }
+
+      .hero::before {
+        /* Escurece só a base da imagem, onde o título encosta */
+        background: linear-gradient(to bottom,
+          rgba(42,5,7,0) 0,
+          rgba(42,5,7,0) calc(55.8vw - 90px),
+          var(--fundo) calc(55.8vw + 10px));
+      }
+
+      .hero h1 { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+
+      .countdown-wrap { margin-top: -44px; }
+      .countdown { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px; border-radius: 16px; }
+      .unit { padding: 14px 6px; border-radius: 12px; }
+      .unit .num { font-size: clamp(2.8rem, 15vw, 4rem); }
+      .unit .label { font-size: .75rem; letter-spacing: 1.5px; }
+      .info { padding: 24px 16px 8px; font-size: .95rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <h1>Quanto tempo falta para a <span>festa da aposentadoria</span> do Lula?</h1>
+  </header>
+
+  <div class="countdown-wrap">
+    <div class="countdown" id="countdown">
+      <div class="unit"><span class="num" id="dias">00</span><span class="label">Dias</span></div>
+      <div class="unit"><span class="num" id="horas">00</span><span class="label">Horas</span></div>
+      <div class="unit"><span class="num" id="minutos">00</span><span class="label">Minutos</span></div>
+      <div class="unit"><span class="num" id="segundos">00</span><span class="label">Segundos</span></div>
+    </div>
+  </div>
+
+  <div class="festa" id="festa">🎉 A festa começou! 🎉</div>
+
+  <p class="info">Aposentadoria marcada para <strong>25/10/2026 às 19h</strong> (horário de Brasília)</p>
+
+  <footer>Site de humor sem fins lucrativos.</footer>
+
+  <script>
+    // 25/10/2026 19:00 em Brasília (UTC-3)
+    const alvo = new Date('2026-10-25T19:00:00-03:00').getTime();
+    const pad = n => String(n).padStart(2, '0');
+
+    function atualizar() {
+      const diff = alvo - Date.now();
+
+      if (diff <= 0) {
+        document.getElementById('countdown').style.display = 'none';
+        document.getElementById('festa').style.display = 'block';
+        clearInterval(timer);
+        return;
+      }
+
+      const s = Math.floor(diff / 1000);
+      document.getElementById('dias').textContent = pad(Math.floor(s / 86400));
+      document.getElementById('horas').textContent = pad(Math.floor(s % 86400 / 3600));
+      document.getElementById('minutos').textContent = pad(Math.floor(s % 3600 / 60));
+      document.getElementById('segundos').textContent = pad(s % 60);
+    }
+
+    const timer = setInterval(atualizar, 1000);
+    atualizar();
+  </script>
+</body>
+</html>
